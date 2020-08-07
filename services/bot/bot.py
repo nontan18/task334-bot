@@ -90,6 +90,10 @@ class ReplyHandler:
             self.reply(tweet, 'タスクの量が140文字を超えます。早くタスクを処理してください。')
             self.create_favorite(tweet)
 
+        except IndexIsOutOfTasksRangeError:
+            self.reply(tweet, 'タスク番号が選択範囲を超えています。正しいタスク番号を指定して下さい。')
+            self.create_favorite(tweet)
+
         except Exception as e:
             raise(e)
 
@@ -123,8 +127,8 @@ class ReplyHandler:
 
         tasks = self.list_task(user) 
 
-        if len(tasks) < max(indexes) or 0 > min(indexes):
-            return
+        if len(tasks) - 1 < max(indexes) or 0 > min(indexes):
+            raise IndexIsOutOfTasksRangeError()
  
         done_tasks = [tasks.pop(index) for index in sorted(indexes, reverse=True)]
 
@@ -144,8 +148,8 @@ class ReplyHandler:
         tasks = self.list_task(user)
         print('tasks:', tasks)
         
-        if len(tasks) < max(indexes) or 0 > min(indexes):
-            return
+        if len(tasks) - 1 < max(indexes) or 0 > min(indexes):
+            raise IndexIsOutOfTasksRangeError()
 
         left_tasks = [tasks.pop(index) for index in sorted(indexes, reverse=True)]
 
@@ -160,8 +164,8 @@ class ReplyHandler:
         index = int(args[2]) - 1        
         tasks = self.list_task(user)
 
-        if len(tasks) < index:
-            return
+        if len(tasks) - 1 < index:
+            raise IndexIsOutOfTasksRangeError()
 
         additional_tasks = [Task(id=None, name=name, status=Status.WIP) 
             for name in args[3:]]
@@ -306,6 +310,25 @@ class ReplyHandler:
         return user.latest_tweet_id
         # user = self.db.collection('users').document(user.id).get().to_dict()
         # return user['latestTweetId'] if 'latestTweetId' in user else None
+
+# class Task334Bot:
+
+#     @command_handler(commands=['add', '追加'])
+#     def handle_add_tweet(self, args, user, tweet):
+#         pass
+
+#     @command_handler(commands=['done', '削除'])
+#     def handle_done_tweet(self, args, user, tweet):
+#         pass
+
+#     @command_handler(commands=['left', '放置'])
+#     def handle_left_tweet(self, args, user, tweet):
+#         pass
+
+#     @error_handler(CommandArgumentsError)
+#     def handle_error_tweet(self, user, tweet):
+#         pass
+
 
 def onetimerun(data, context):
     replyer = ReplyHandler()

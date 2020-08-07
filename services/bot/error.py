@@ -3,3 +3,6 @@ class CommandArgumentsError(Exception):
 
 class ExceedMaximumTweetLengthError(Exception):
     pass
+
+class IndexIsOutOfTasksRangeError(Exception):
+    pass
