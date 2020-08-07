@@ -1,0 +1,17 @@
+version: '3.1'
+services:
+  scheduler:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - pip_install:/root/.local
+      - ./services/bot:/root/app
+    working_dir: /root/app
+    env_file:
+        - .env
+    command: python scheduler.py
+
+volumes:
+  pip_install:
+    driver: local

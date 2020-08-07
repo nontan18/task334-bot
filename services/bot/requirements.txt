@@ -1,4 +1,4 @@
 twython
 firebase-admin
 google-cloud-firestore
-scheduler
+schedule
