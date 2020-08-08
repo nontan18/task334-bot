@@ -120,6 +120,16 @@ class Task334Bot(Replyer):
         self.reply(tweet, 'TASK334を利用するためには、こちらからTwitter連携を行う必要があります。')
         self.create_favorite(tweet)
 
+    @handle_error(NoCommandError)
+    def handle_no_command_error(self, user, tweet):
+        self.reply(tweet, 'TASK334を利用するためにはコマンドを入力して下さい。')
+        self.create_favorite(tweet)
+
+    @handle_error(CommandNotFoundError)
+    def handle_command_not_found_error(self, user, tweet):
+        self.reply(tweet, '無効なコマンドです。現在、使用可能なコマンドは「追加(add)」、「完了(done)」、「放置(left)」、「分割(devide)」の４つです。')
+        self.create_favorite(tweet)
+
 
 def onetimerun(data, context):
     bot = Task334Bot()

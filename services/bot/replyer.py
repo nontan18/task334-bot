@@ -76,10 +76,10 @@ class Replyer(
         replyer_id = tweet['user']['id_str']
         user = self.get_user_by_twitter_id(replyer_id)
 
-        if len(args) < 2:
-            return
-
         try:
+            if len(args) < 2:
+                raise NoCommandError()
+
             if not user:
                 raise NotRegisteredUserError()
 
@@ -90,10 +90,8 @@ class Replyer(
                     func(self, args, user, tweet)
                     self.delete_tweet(user, tweet)
                     return
-            
-            self.handle_exception_tweet(args, user, tweet)
-            self.create_favorite(tweet)
-            return
+
+            raise CommandNotFoundError()
 
         except Exception as e:
             for error, func in self.handling_errors:

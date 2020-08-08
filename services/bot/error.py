@@ -9,3 +9,9 @@ class IndexIsOutOfTasksRangeError(Exception):
 
 class NotRegisteredUserError(Exception):
     pass
+
+class CommandNotFoundError(Exception):
+    pass
+
+class NoCommandError(Exception):
+    pass    
