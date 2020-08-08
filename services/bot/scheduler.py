@@ -1,12 +1,12 @@
 import schedule
 import logging, time
-from bot import ReplyHandler
+from bot import Task334Bot
 from settings import *
 
 logger = logging.getLogger(__name__)
 
 def replyer_job():
-    replyer = ReplyHandler()
+    replyer = Task334Bot()
     try:
         replyer.handle_tweets()
     except Exception as e:

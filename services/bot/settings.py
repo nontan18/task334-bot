@@ -1,6 +1,6 @@
 import os, base64, json
 from firebase_admin import credentials
-
+import firebase_admin
 
 def base64_to_json(base64_str):
     return json.loads(base64.b64decode(base64_str))
@@ -15,3 +15,4 @@ CERTIFICATE = credentials.Certificate(FIREBASE_ADMIN_JSON)
 
 INTERVAL = 12
 
+firebase_admin.initialize_app(CERTIFICATE)

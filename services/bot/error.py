@@ -6,3 +6,6 @@ class ExceedMaximumTweetLengthError(Exception):
 
 class IndexIsOutOfTasksRangeError(Exception):
     pass
+
+class NotRegisteredUserError(Exception):
+    pass
