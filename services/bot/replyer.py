@@ -1,8 +1,10 @@
-import time
+import time, logging
 from models import User, Task, Status
 from types import MethodType, FunctionType, LambdaType
 from settings import *
 from clients import TwitterClient, FireStoreClient
+
+logger = logging.getLogger('task334').getChild(__name__)
 
 def handle_command(commands=[]):
     def decorate(func):
@@ -60,15 +62,16 @@ class Replyer(
                 self.handle_tweets()
 
             except Exception as e:
-                print('Error:', e)
+                logger.error(e)
 
             time.sleep(INTERVAL)
 
     def handle_tweets(self):
+        logger.debug('handling tweets')
         tweets = self.get_unread_tweets()
 
         for tweet in reversed(tweets):
-            print(tweet['text'])
+            logger.info(tweet['text'])
             self.handle_tweet(tweet)
 
     def handle_tweet(self, tweet):
@@ -98,12 +101,12 @@ class Replyer(
                 if type(e) == error:
                     func(self, user, tweet)
                     return
-            raise(e)
 
-            # TODO: エラーにハマった場合に動けなくなるのをどうにかする。
+            self.handle_unexpected_error()
+            logger.error(e)
 
 
-    def handle_exception_tweet(self, args, user: User, tweet):
-        pass
+    def handle_unexpected_error(self, args, user: User, tweet):
+        raise Exception('handle_unexpeced_method is Not Implemented')
 
 

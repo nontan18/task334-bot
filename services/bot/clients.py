@@ -14,6 +14,7 @@ class TwitterClient:
             ACCESS_TOKEN,
             ACCESS_TOKEN_SECRET
         )
+        super().__init__()
 
     def delete_tweet(self, user: User, tweet):
         twitter = Twython(
@@ -82,6 +83,7 @@ class TwitterClient:
 class FireStoreClient:
     def __init__(self):
         self.db = firestore.client()
+        super().__init__()
 
     def add_task(self, user: User, task: Task):
         return self.db.collection('users').document(user.id) \
