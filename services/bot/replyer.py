@@ -102,11 +102,11 @@ class Replyer(
                     func(self, user, tweet)
                     return
 
-            self.handle_unexpected_error()
+            self.handle_unexpected_error(user, tweet)
             logger.error(e)
 
 
-    def handle_unexpected_error(self, args, user: User, tweet):
+    def handle_unexpected_error(self, user: User, tweet):
         raise Exception('handle_unexpeced_method is Not Implemented')
 
 
